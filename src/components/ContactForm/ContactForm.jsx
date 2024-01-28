@@ -1,11 +1,12 @@
 import { nanoid } from '@reduxjs/toolkit';
 import css from './ContactForm.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { getContacts, addContact } from '../../redux/Contact/ContactsSlice';
+import {  addContacts } from '../../redux/Services/Api';
+import { selectContactsAll } from '../../redux/selectors';
 import { useState } from 'react';
 
 export default function ContactForm() {
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContactsAll);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     name: '',
@@ -39,12 +40,12 @@ export default function ContactForm() {
     }
 
     const contact = { id: nanoid(), name, number };
-    dispatch(addContact(contact));
+    dispatch(addContacts(contact));
     setFormData({ name: '', number: '' });
   };
   const onFormSubmit = (formData) => {
     const contact = { id: nanoid(), ...formData };
-    dispatch(addContact(contact));
+    dispatch(addContacts(contact));
   };
   return (
     <div className={css.formContainer}>
